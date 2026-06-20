@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+:root,
+[data-theme="dark-slate"] {
+  --color-accent-primary: #c084fc;
+  --color-accent-secondary: #a78bfa;
+  --color-background: #0f1117;
+  --color-surface: #1e2030;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+}
+
+[data-theme="dark-emerald"] {
+  --color-accent-primary: #34d399;
+  --color-accent-secondary: #6ee7b7;
+  --color-background: #0c1915;
+  --color-surface: #162b24;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+}
+
+[data-theme="dark-violet"] {
+  --color-accent-primary: #a78bfa;
+  --color-accent-secondary: #c4b5fd;
+  --color-background: #130c1a;
+  --color-surface: #241b30;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+}
+
+[data-theme="dark-cyan"] {
+  --color-accent-primary: #22d3ee;
+  --color-accent-secondary: #67e8f9;
+  --color-background: #0c1518;
+  --color-surface: #16282e;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-accent-primary);
+  cursor: pointer;
+}
