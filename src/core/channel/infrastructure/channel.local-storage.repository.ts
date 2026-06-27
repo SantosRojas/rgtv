@@ -9,7 +9,11 @@ export class ChannelLocalStorageRepository implements ChannelRepository {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (!raw) return []
-      return JSON.parse(raw) as Channel[]
+      const channels: Channel[] = JSON.parse(raw)
+      for (const ch of channels) {
+        ch.category = ch.category.split(';')[0]!.trim()
+      }
+      return channels
     } catch {
       throw new StorageError('Failed to read channels from storage')
     }
@@ -17,7 +21,11 @@ export class ChannelLocalStorageRepository implements ChannelRepository {
 
   async saveAll(channels: Channel[]): Promise<void> {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(channels))
+      const normalized = channels.map((ch) => ({
+        ...ch,
+        category: ch.category.split(';')[0]!.trim(),
+      }))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized))
     } catch {
       throw new StorageError('Failed to save channels to storage')
     }

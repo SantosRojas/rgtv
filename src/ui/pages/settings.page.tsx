@@ -5,10 +5,10 @@ import { Input } from '../components/atoms/input.tsx'
 import { Button } from '../components/atoms/button.tsx'
 
 const themes: { value: ThemeVariant; label: string }[] = [
-  { value: 'dark-slate', label: 'Dark Slate' },
-  { value: 'dark-emerald', label: 'Dark Emerald' },
-  { value: 'dark-violet', label: 'Dark Violet' },
-  { value: 'dark-cyan', label: 'Dark Cyan' },
+  { value: 'dark-slate', label: 'Pizarra oscura' },
+  { value: 'dark-emerald', label: 'Esmeralda oscura' },
+  { value: 'dark-violet', label: 'Violeta oscuro' },
+  { value: 'dark-cyan', label: 'Cian oscuro' },
 ]
 
 export default function SettingsPage() {
@@ -29,10 +29,10 @@ export default function SettingsPage() {
   return (
     <div className="h-full overflow-auto p-4">
       <div className="max-w-2xl mx-auto space-y-8">
-        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Settings</h1>
+        <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Ajustes</h1>
 
         <section className="bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-xl rounded-xl p-4 space-y-4">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Theme</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Tema</h2>
           <div className="flex gap-2 flex-wrap">
             {themes.map((t) => (
               <Button
@@ -48,9 +48,9 @@ export default function SettingsPage() {
         </section>
 
         <section className="bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-xl rounded-xl p-4 space-y-4">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">CORS Proxy</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Proxy CORS</h2>
           <p className="text-sm text-[var(--color-text-secondary)]">
-            Configure a proxy URL for streams that require CORS bypass.
+            Configura una URL de proxy para streams que requieran bypass de CORS.
           </p>
           <Input
             type="url"
@@ -61,9 +61,9 @@ export default function SettingsPage() {
         </section>
 
         <section className="bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-xl rounded-xl p-4 space-y-4">
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Data</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)]">Datos</h2>
           <Button variant="secondary" size="sm" onClick={handleExportPlaylists}>
-            Export Playlists
+            Exportar listas
           </Button>
         </section>
       </div>

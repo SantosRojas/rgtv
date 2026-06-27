@@ -5,9 +5,6 @@ export interface Channel {
   name: string
   logo: string | null
   url: string
-  country: string
   category: string
-  language: string
-  isFavorite: boolean
   origin: ChannelOrigin
 }

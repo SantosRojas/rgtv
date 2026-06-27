@@ -7,9 +7,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Home', icon: 'home-icon', hash: '#/' },
-  { label: 'Playlists', icon: 'list-icon', hash: '#/listas' },
-  { label: 'Settings', icon: 'settings-icon', hash: '#/configuracion' },
+  { label: 'Inicio', icon: 'home-icon', hash: '#/' },
+  { label: 'Listas', icon: 'list-icon', hash: '#/listas' },
+  { label: 'Ajustes', icon: 'settings-icon', hash: '#/configuracion' },
 ]
 
 export function SidebarLayout() {

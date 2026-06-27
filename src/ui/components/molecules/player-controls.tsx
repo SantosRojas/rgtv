@@ -40,7 +40,7 @@ export function PlayerControls({
         onClick={onTogglePlay}
         className="p-2 rounded-lg hover:bg-white/5 transition-colors text-white"
         disabled={isLoading}
-        aria-label={isPlaying ? 'Pause' : 'Play'}
+        aria-label={isPlaying ? 'Pausa' : 'Reproducir'}
       >
         <Icon name={isPlaying ? 'pause-icon' : 'play-icon'} size={22} />
       </button>
@@ -56,7 +56,7 @@ export function PlayerControls({
         value={currentTime}
         onChange={(e) => onSeek(Number(e.target.value))}
         className="flex-1 h-1 accent-[var(--color-accent-primary)] cursor-pointer"
-        aria-label="Seek"
+        aria-label="Buscar"
       />
 
       <span className="text-xs text-white/70 tabular-nums w-12">
@@ -66,7 +66,7 @@ export function PlayerControls({
       <button
         onClick={onToggleMute}
         className="p-2 rounded-lg hover:bg-white/5 transition-colors text-white"
-        aria-label={muted ? 'Unmute' : 'Mute'}
+        aria-label={muted ? 'Activar sonido' : 'Silenciar'}
       >
         <Icon name={muted ? 'mute-icon' : volume > 0.5 ? 'volume-high-icon' : 'volume-low-icon'} size={20} />
       </button>
@@ -79,13 +79,13 @@ export function PlayerControls({
         value={muted ? 0 : volume}
         onChange={(e) => onVolumeChange(Number(e.target.value))}
         className="w-20 h-1 accent-[var(--color-accent-primary)] cursor-pointer"
-        aria-label="Volume"
+        aria-label="Volumen"
       />
 
       <button
         onClick={onToggleFullscreen}
         className="p-2 rounded-lg hover:bg-white/5 transition-colors text-white"
-        aria-label="Fullscreen"
+        aria-label="Pantalla completa"
       >
         <Icon name="fullscreen-icon" size={20} />
       </button>

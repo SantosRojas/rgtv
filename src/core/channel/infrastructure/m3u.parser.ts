@@ -2,13 +2,8 @@ import type { Channel, ChannelOrigin } from '../domain/channel.ts'
 import { generateId } from '../../shared/utils/id-generator.ts'
 import { ParseError } from '../../shared/domain/errors.ts'
 
-const EXTINF_REGEX = /#EXTINF:(?:-?\d+(?:\.\d+)?)?(?:.*?tvg-logo="([^"]*)")?(?:.*?tvg-country="([^"]*)")?(?:.*?tvg-language="([^"]*)")?(?:.*?group-title="([^"]*)")?(?:.*?,)(.*)/
+const EXTINF_REGEX = /#EXTINF:(?:-?\d+(?:\.\d+)?)?(?:.*?tvg-logo="([^"]*)")?(?:.*?group-title="([^"]*)")?(?:.*?,)(.*)/
 const EXTINF_SIMPLE_REGEX = /#EXTINF:(?:-?\d+(?:\.\d+)?)?(?:.*?,)(.*)/
-
-function normalizeValue(value: string | undefined, fallback: string): string {
-  if (!value || value.trim() === '') return fallback
-  return value.trim()
-}
 
 function detectOrigin(url: string): ChannelOrigin {
   const lower = url.toLowerCase()
@@ -51,11 +46,8 @@ export function parseM3U(content: string, origin?: ChannelOrigin): Channel[] {
       id: generateId(),
       name,
       logo: match[1] ? match[1].trim() || null : null,
-      country: normalizeValue(match[2], 'Unknown'),
-      category: normalizeValue(match[4], 'General'),
-      language: normalizeValue(match[3], 'Unknown'),
+      category: match[2] ? match[2].split(';')[0]!.trim() : 'General',
       url,
-      isFavorite: false,
       origin: origin ?? detectOrigin(url),
     }
 

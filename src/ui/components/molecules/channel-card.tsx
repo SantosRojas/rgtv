@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import type { Channel } from '../../../core/channel/domain/channel.ts'
 import { Badge } from '../atoms/badge.tsx'
 import { Icon } from '../atoms/icon.tsx'
@@ -9,10 +10,18 @@ interface ChannelCardProps {
   onSelect: (channel: Channel) => void
 }
 
-export function ChannelCard({ channel, isFavorite, onToggleFavorite, onSelect }: ChannelCardProps) {
+export const ChannelCard = memo(function ChannelCard({ channel, isFavorite, onToggleFavorite, onSelect }: ChannelCardProps) {
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={() => onSelect(channel)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect(channel)
+        }
+      }}
       className="w-full text-left bg-slate-900/40 backdrop-blur-md border border-white/10 shadow-xl rounded-xl p-3 hover:border-[var(--color-accent-primary)]/50 transition-all group cursor-pointer"
     >
       <div className="flex items-center gap-3">
@@ -29,7 +38,6 @@ export function ChannelCard({ channel, isFavorite, onToggleFavorite, onSelect }:
           </h3>
           <div className="flex items-center gap-1.5 mt-1">
             <Badge variant="category">{channel.category}</Badge>
-            <Badge>{channel.country}</Badge>
           </div>
         </div>
         <button
@@ -38,7 +46,7 @@ export function ChannelCard({ channel, isFavorite, onToggleFavorite, onSelect }:
             onToggleFavorite(channel.id)
           }}
           className="p-1.5 rounded-lg hover:bg-white/5 transition-colors"
-          aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+          aria-label={isFavorite ? 'Quitar de favoritos' : 'Añadir a favoritos'}
         >
           <Icon
             name={isFavorite ? 'heart-filled-icon' : 'heart-icon'}
@@ -47,6 +55,6 @@ export function ChannelCard({ channel, isFavorite, onToggleFavorite, onSelect }:
           />
         </button>
       </div>
-    </button>
+    </div>
   )
-}
+})

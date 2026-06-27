@@ -18,7 +18,19 @@ export function usePlayer() {
   const service = getPlayerService()
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
-  const store = usePlayerStore()
+
+  const currentChannel = usePlayerStore((s) => s.currentChannel)
+  const playbackState = usePlayerStore((s) => s.playbackState)
+  const volume = usePlayerStore((s) => s.volume)
+  const muted = usePlayerStore((s) => s.muted)
+  const currentTime = usePlayerStore((s) => s.currentTime)
+  const duration = usePlayerStore((s) => s.duration)
+  const setCurrentChannel = usePlayerStore((s) => s.setCurrentChannel)
+  const setPlaybackState = usePlayerStore((s) => s.setPlaybackState)
+  const setVolumeAction = usePlayerStore((s) => s.setVolume)
+  const setMutedAction = usePlayerStore((s) => s.setMuted)
+  const setCurrentTimeAction = usePlayerStore((s) => s.setCurrentTime)
+  const setDurationAction = usePlayerStore((s) => s.setDuration)
 
   useEffect(() => {
     if (videoRef.current) {
@@ -27,11 +39,11 @@ export function usePlayer() {
 
     const unsubscribe = service.player.on((event) => {
       if (event.type === 'stateChange') {
-        store.setPlaybackState(event.state)
+        setPlaybackState(event.state)
       }
       if (event.type === 'timeUpdate') {
-        store.setCurrentTime(event.currentTime)
-        store.setDuration(event.duration)
+        setCurrentTimeAction(event.currentTime)
+        setDurationAction(event.duration)
       }
     })
 
@@ -43,11 +55,15 @@ export function usePlayer() {
 
   const loadChannel = useCallback(
     async (channel: Channel) => {
-      store.setCurrentChannel(channel)
-      store.setPlaybackState('loading')
-      await service.load(channel.url)
+      setCurrentChannel(channel)
+      setPlaybackState('loading')
+      try {
+        await service.load(channel.url)
+      } catch {
+        setPlaybackState('error')
+      }
     },
-    [service, store],
+    [service, setCurrentChannel, setPlaybackState],
   )
 
   const togglePlay = useCallback(() => {
@@ -64,15 +80,15 @@ export function usePlayer() {
   const setVolume = useCallback(
     (volume: number) => {
       service.setVolume(volume)
-      store.setVolume(volume)
+      setVolumeAction(volume)
     },
-    [service, store],
+    [service, setVolumeAction],
   )
 
   const toggleMute = useCallback(() => {
     service.toggleMute()
-    store.setMuted(!store.muted)
-  }, [service, store])
+    setMutedAction(!muted)
+  }, [service, muted, setMutedAction])
 
   const toggleFullscreen = useCallback(() => {
     if (!containerRef.current) return
@@ -86,7 +102,12 @@ export function usePlayer() {
   return {
     videoRef,
     containerRef,
-    ...store,
+    currentChannel,
+    playbackState,
+    volume,
+    muted,
+    currentTime,
+    duration,
     loadChannel,
     togglePlay,
     seek,

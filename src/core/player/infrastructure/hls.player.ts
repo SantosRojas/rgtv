@@ -71,10 +71,15 @@ export class HlsPlayer {
 
     if (this.video.canPlayType('application/vnd.apple.mpegurl')) {
       this.video.src = url
+      this.play()
     } else if (Hls.isSupported()) {
       this.hls = new Hls()
       this.hls.loadSource(url)
       this.hls.attachMedia(this.video)
+
+      this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        this.play()
+      })
 
       this.hls.on(Hls.Events.ERROR, (_, data) => {
         if (data.fatal) {
@@ -89,9 +94,14 @@ export class HlsPlayer {
 
   play() {
     if (!this.video) return
-    this.video.play().catch(() => {
+    this.video.play().catch((err: DOMException) => {
+      if (err.name === 'NotAllowedError') {
+        this.setState('paused')
+        this.emit({ type: 'error', message: 'Presiona Play para comenzar' })
+        return
+      }
       this.setState('error')
-      this.emit({ type: 'error', message: 'Failed to play stream' })
+      this.emit({ type: 'error', message: 'Error al reproducir el stream' })
     })
   }
 

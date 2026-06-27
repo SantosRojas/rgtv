@@ -1,8 +1,14 @@
+import { useCallback, useEffect } from 'react'
 import { usePlayer } from '../../hooks/use-player.ts'
 import { PlayerControls } from '../molecules/player-controls.tsx'
 import { LoadingSpinner } from '../atoms/loading-spinner.tsx'
+import type { Channel } from '../../../core/channel/domain/channel.ts'
 
-export function Player() {
+interface PlayerProps {
+  channel?: Channel | null
+}
+
+export function Player({ channel }: PlayerProps) {
   const {
     videoRef,
     containerRef,
@@ -16,10 +22,24 @@ export function Player() {
     setVolume,
     toggleMute,
     toggleFullscreen,
+    loadChannel,
   } = usePlayer()
 
   const isPlaying = playbackState === 'playing'
   const isLoading = playbackState === 'loading' || playbackState === 'buffering'
+
+  useEffect(() => {
+    if (channel) {
+      loadChannel(channel)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channel?.id])
+
+  const handleRetry = useCallback(() => {
+    if (channel) {
+      loadChannel(channel)
+    }
+  }, [channel, loadChannel])
 
   return (
     <div
@@ -31,8 +51,14 @@ export function Player() {
         ref={videoRef}
         className="w-full h-full object-contain"
         playsInline
-        aria-label="Video player"
+        aria-label="Reproductor de video"
       />
+
+      {!channel && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+          <p className="text-[var(--color-text-secondary)] text-lg">Selecciona un canal para reproducir</p>
+        </div>
+      )}
 
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/60">
@@ -40,9 +66,33 @@ export function Player() {
         </div>
       )}
 
+      {playbackState === 'paused' && channel && (
+        <div
+          className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer"
+          onClick={togglePlay}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') togglePlay() }}
+          aria-label="Presiona Play para comenzar"
+        >
+          <div className="flex flex-col items-center gap-2">
+            <svg className="w-16 h-16 text-white/80" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+            <p className="text-white/90 text-sm">Presiona Play para comenzar</p>
+          </div>
+        </div>
+      )}
+
       {playbackState === 'error' && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-          <p className="text-red-400 text-lg">Error loading stream</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60">
+          <p className="text-red-400 text-lg">Error al cargar el stream</p>
+          <button
+            onClick={handleRetry}
+            className="px-4 py-2 rounded-lg bg-(--color-accent-primary) text-white text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            Reintentar
+          </button>
         </div>
       )}
 

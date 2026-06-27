@@ -30,7 +30,7 @@ export function PlaylistManager() {
       addPlaylist(url.split('/').pop() ?? 'Remote Playlist', url)
       setUrl('')
     } catch {
-      setError('Failed to import playlist')
+      setError('Error al importar la lista')
     } finally {
       setImporting(false)
     }
@@ -48,7 +48,7 @@ export function PlaylistManager() {
       await importM3U(content)
       addPlaylist(file.name.replace('.m3u', '').replace('.m3u8', ''), undefined, content)
     } catch {
-      setError('Failed to parse file')
+      setError('Error al leer el archivo')
     } finally {
       setImporting(false)
     }
@@ -64,7 +64,7 @@ export function PlaylistManager() {
       await importM3U(content, origin)
       addPlaylist(name, m3uUrl)
     } catch {
-      setError(`Failed to import ${name}`)
+      setError(`Error al importar ${name}`)
     } finally {
       setImporting(false)
     }
@@ -73,7 +73,7 @@ export function PlaylistManager() {
   return (
     <div className="space-y-4">
       <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Default Playlists</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Listas predeterminadas</h2>
         <div className="flex gap-2 flex-wrap">
           {DEFAULT_PLAYLISTS.map((pl) => (
             <Button
@@ -90,7 +90,7 @@ export function PlaylistManager() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Import from URL</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Importar desde URL</h2>
         <div className="flex gap-2">
           <Input
             type="url"
@@ -100,23 +100,23 @@ export function PlaylistManager() {
             className="flex-1"
           />
           <Button onClick={handleImportUrl} disabled={importing || !url.trim()}>
-            Import
+            Importar
           </Button>
         </div>
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Upload File</h2>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Subir archivo</h2>
         <input
           ref={fileInputRef}
           type="file"
           accept=".m3u,.m3u8,audio/x-mpegurl"
           onChange={handleFileUpload}
           className="hidden"
-          aria-label="Upload M3U file"
+          aria-label="Subir archivo M3U"
         />
         <Button variant="secondary" onClick={() => fileInputRef.current?.click()} disabled={importing}>
-          Choose .m3u file
+          Elegir archivo .m3u
         </Button>
       </div>
 
@@ -124,7 +124,7 @@ export function PlaylistManager() {
 
       {playlists.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">My Playlists</h2>
+          <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Mis listas</h2>
           <div className="space-y-2">
             {playlists.map((pl) => (
               <div
@@ -146,7 +146,7 @@ export function PlaylistManager() {
                     removePlaylist(pl.id)
                   }}
                   className="p-1.5 rounded-lg hover:bg-white/5 text-red-400"
-                  aria-label={`Remove ${pl.name}`}
+                  aria-label={`Quitar ${pl.name}`}
                 >
                   <Icon name="trash-icon" size={16} />
                 </button>
