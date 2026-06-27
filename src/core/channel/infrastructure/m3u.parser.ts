@@ -8,7 +8,6 @@ const EXTINF_SIMPLE_REGEX = /#EXTINF:(?:-?\d+(?:\.\d+)?)?(?:.*?,)(.*)/
 function detectOrigin(url: string): ChannelOrigin {
   const lower = url.toLowerCase()
   if (lower.includes('iptv-org')) return 'default_iptv_org'
-  if (lower.includes('tdtchannels')) return 'default_tdtchannels'
   return 'custom'
 }
 

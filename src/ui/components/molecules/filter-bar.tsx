@@ -96,7 +96,7 @@ function CategoryDropdown({
         <div
           ref={listRef}
           role="listbox"
-          className="absolute top-full left-0 mt-1 z-50 min-w-50 w-full lg:min-w-60 bg-(--color-surface) border border-(--color-border) rounded-xl shadow-xl backdrop-blur-md max-h-70 overflow-y-auto"
+          className="absolute top-full left-0 mt-1 z-50 min-w-50 w-full lg:min-w-60 bg-(--color-surface) border border-(--color-border) rounded-xl shadow-xl backdrop-blur-md max-h-70 overflow-y-auto scrollbar-none"
         >
           <button
             role="option"

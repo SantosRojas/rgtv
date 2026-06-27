@@ -48,7 +48,7 @@ export function ChannelList({
 
   if (channels.length === 0) {
     return (
-      <div className="text-center py-12 text-[var(--color-text-secondary)]">
+      <div className="text-center py-12 text-(--color-text-secondary)">
         <p className="text-lg">No se encontraron canales</p>
         <p className="text-sm mt-1">Importa una lista para comenzar</p>
       </div>
@@ -56,7 +56,7 @@ export function ChannelList({
   }
 
   return (
-    <div ref={parentRef} className="h-full overflow-auto" role="list" aria-label="Lista de canales">
+    <div ref={parentRef} className="h-full overflow-auto scrollbar-none" role="list" aria-label="Lista de canales">
       <div
         className="relative w-full"
         style={{ height: `${virtualizer.getTotalSize()}px` }}

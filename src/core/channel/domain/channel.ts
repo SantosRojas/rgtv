@@ -1,4 +1,4 @@
-export type ChannelOrigin = 'default_iptv_org' | 'default_tdtchannels' | 'custom'
+export type ChannelOrigin = 'default_iptv_org' | 'custom'
 
 export interface Channel {
   id: string

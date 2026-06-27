@@ -66,24 +66,6 @@ export function Player({ channel }: PlayerProps) {
         </div>
       )}
 
-      {playbackState === 'paused' && channel && (
-        <div
-          className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer"
-          onClick={togglePlay}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') togglePlay() }}
-          aria-label="Presiona Play para comenzar"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <svg className="w-16 h-16 text-white/80" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-            <p className="text-white/90 text-sm">Presiona Play para comenzar</p>
-          </div>
-        </div>
-      )}
-
       {playbackState === 'error' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/60">
           <p className="text-red-400 text-lg">Error al cargar el stream</p>

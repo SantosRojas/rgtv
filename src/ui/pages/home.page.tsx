@@ -74,7 +74,7 @@ export default function HomePage() {
           <h1 className="text-2xl font-bold text-(--color-text-primary)">
             RGTV
             <span className="text-sm font-normal text-(--color-text-secondary) ml-2">
-              {channels.length} canales
+              {filteredChannels.length} / {channels.length} canales
             </span>
           </h1>
           <SearchBar onSearch={setSearchQuery} />

@@ -1,40 +1,20 @@
 import { useState, useRef } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { usePlaylistStore } from '../../../stores/playlist.store.ts'
 import { Button } from '../atoms/button.tsx'
-import { Input } from '../atoms/input.tsx'
 import { Icon } from '../atoms/icon.tsx'
 import { importM3U } from '../../hooks/use-channels.ts'
-import type { ChannelOrigin } from '../../../core/channel/domain/channel.ts'
 
-const DEFAULT_PLAYLISTS = [
-  { name: 'IPTV-org', url: 'https://iptv-org.github.io/iptv/index.m3u' },
-  { name: 'TDTChannels', url: 'https://www.tdtchannels.com/lists/tv.m3u8' },
-]
+const IPTV_ORG_URL = 'https://iptv-org.github.io/iptv/index.m3u'
 
 export function PlaylistManager() {
+  const queryClient = useQueryClient()
   const { playlists, addPlaylist, removePlaylist, setActivePlaylist, activePlaylistId } = usePlaylistStore()
-  const [url, setUrl] = useState('')
   const [importing, setImporting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleImportUrl = async () => {
-    if (!url.trim()) return
-    setImporting(true)
-    setError(null)
-
-    try {
-      const response = await fetch(url)
-      const content = await response.text()
-      await importM3U(content)
-      addPlaylist(url.split('/').pop() ?? 'Remote Playlist', url)
-      setUrl('')
-    } catch {
-      setError('Error al importar la lista')
-    } finally {
-      setImporting(false)
-    }
-  }
+  const invalidateChannels = () => queryClient.invalidateQueries({ queryKey: ['channels'] })
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -47,24 +27,27 @@ export function PlaylistManager() {
       const content = await file.text()
       await importM3U(content)
       addPlaylist(file.name.replace('.m3u', '').replace('.m3u8', ''), undefined, content)
+      await invalidateChannels()
     } catch {
       setError('Error al leer el archivo')
     } finally {
+      e.target.value = ''
       setImporting(false)
     }
   }
 
-  const handleDefaultImport = async (name: string, m3uUrl: string) => {
+  const handleIptvImport = async () => {
     setImporting(true)
     setError(null)
     try {
-      const response = await fetch(m3uUrl)
+      const response = await fetch(IPTV_ORG_URL)
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
       const content = await response.text()
-      const origin = name === 'IPTV-org' ? 'default_iptv_org' as ChannelOrigin : 'default_tdtchannels' as ChannelOrigin
-      await importM3U(content, origin)
-      addPlaylist(name, m3uUrl)
+      await importM3U(content, 'default_iptv_org')
+      addPlaylist('IPTV-org', IPTV_ORG_URL)
+      await invalidateChannels()
     } catch {
-      setError(`Error al importar ${name}`)
+      setError('Error al importar IPTV-org')
     } finally {
       setImporting(false)
     }
@@ -74,35 +57,9 @@ export function PlaylistManager() {
     <div className="space-y-4">
       <div>
         <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Listas predeterminadas</h2>
-        <div className="flex gap-2 flex-wrap">
-          {DEFAULT_PLAYLISTS.map((pl) => (
-            <Button
-              key={pl.name}
-              variant="secondary"
-              size="sm"
-              onClick={() => handleDefaultImport(pl.name, pl.url)}
-              disabled={importing}
-            >
-              {pl.name}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Importar desde URL</h2>
-        <div className="flex gap-2">
-          <Input
-            type="url"
-            placeholder="https://example.com/playlist.m3u"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            className="flex-1"
-          />
-          <Button onClick={handleImportUrl} disabled={importing || !url.trim()}>
-            Importar
-          </Button>
-        </div>
+        <Button variant="secondary" size="sm" onClick={handleIptvImport} disabled={importing}>
+          IPTV-org
+        </Button>
       </div>
 
       <div>

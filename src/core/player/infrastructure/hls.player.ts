@@ -94,12 +94,7 @@ export class HlsPlayer {
 
   play() {
     if (!this.video) return
-    this.video.play().catch((err: DOMException) => {
-      if (err.name === 'NotAllowedError') {
-        this.setState('paused')
-        this.emit({ type: 'error', message: 'Presiona Play para comenzar' })
-        return
-      }
+    this.video.play().catch(() => {
       this.setState('error')
       this.emit({ type: 'error', message: 'Error al reproducir el stream' })
     })
