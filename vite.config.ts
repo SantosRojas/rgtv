@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  base: '/rgtv/',
   build: {
     chunkSizeWarningLimit: 1000,
   },
@@ -20,7 +21,7 @@ export default defineConfig({
         theme_color: '#0f1117',
         background_color: '#0f1117',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/rgtv/',
         icons: [
           { src: '/favicon.svg', sizes: '192x192', type: 'image/svg+xml' },
         ],
