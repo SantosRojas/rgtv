@@ -13,7 +13,7 @@ export function Icon({ name, size = 20, className = '' }: IconProps) {
       role="presentation"
       aria-hidden="true"
     >
-      <use href={`/icons.svg#${name}`} />
+      <use href={`${import.meta.env.BASE_URL}icons.svg#${name}`} />
     </svg>
   )
 }
