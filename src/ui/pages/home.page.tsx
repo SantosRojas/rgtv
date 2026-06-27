@@ -3,6 +3,7 @@ import { useChannelStore } from '../../stores/channel.store.ts'
 import { usePlayerStore } from '../../stores/player.store.ts'
 import { useFavoriteStore } from '../../stores/favorite.store.ts'
 import { useChannels } from '../hooks/use-channels.ts'
+import { useInitChannels } from '../hooks/use-init-channels.ts'
 import { SearchBar } from '../components/molecules/search-bar.tsx'
 import { FilterBar } from '../components/molecules/filter-bar.tsx'
 import { ChannelList } from '../components/organisms/channel-list.tsx'
@@ -14,6 +15,7 @@ const LAST_CHANNEL_KEY = 'rgtv_last_channel'
 const Player = lazy(() => import('../components/organisms/player.tsx').then((m) => ({ default: m.Player })))
 
 export default function HomePage() {
+  useInitChannels()
   const { data: channels = [], isLoading } = useChannels()
   const { searchQuery, filters, setSearchQuery, setFilters, clearFilters } = useChannelStore()
   const { favoriteIds, toggleFavorite } = useFavoriteStore()
