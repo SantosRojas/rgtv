@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { usePlaylistStore } from '../../../stores/playlist.store.ts'
+import { useFavoriteStore } from '../../../stores/favorite.store.ts'
+import { usePlayerStore } from '../../../stores/player.store.ts'
 import { Button } from '../atoms/button.tsx'
 import { Icon } from '../atoms/icon.tsx'
-import { importM3U } from '../../hooks/use-channels.ts'
+import { importM3U, clearChannels } from '../../hooks/use-channels.ts'
 
 const IPTV_ORG_URL = 'https://iptv-org.github.io/iptv/index.m3u'
 
@@ -13,6 +15,9 @@ export function PlaylistManager() {
   const [importing, setImporting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const { setFavorites } = useFavoriteStore()
+  const { setCurrentChannel } = usePlayerStore()
 
   const invalidateChannels = () => queryClient.invalidateQueries({ queryKey: ['channels'] })
 
@@ -48,6 +53,21 @@ export function PlaylistManager() {
       await invalidateChannels()
     } catch {
       setError('Error al importar IPTV-org')
+    } finally {
+      setImporting(false)
+    }
+  }
+
+  const handleClearCache = async () => {
+    if (!window.confirm('¿Estás seguro? Se eliminarán todos los canales, favoritos y se reiniciará el reproductor.')) return
+
+    setImporting(true)
+    try {
+      await clearChannels()
+      setFavorites([])
+      localStorage.removeItem('rgtv_last_channel')
+      setCurrentChannel(null)
+      await invalidateChannels()
     } finally {
       setImporting(false)
     }
@@ -112,6 +132,15 @@ export function PlaylistManager() {
           </div>
         </div>
       )}
+
+      <hr className="border-white/10" />
+
+      <div>
+        <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Mantenimiento</h2>
+        <Button variant="danger" size="sm" onClick={handleClearCache} disabled={importing}>
+          Limpiar caché de canales
+        </Button>
+      </div>
     </div>
   )
 }

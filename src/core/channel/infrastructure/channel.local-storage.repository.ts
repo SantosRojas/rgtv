@@ -30,4 +30,12 @@ export class ChannelLocalStorageRepository implements ChannelRepository {
       throw new StorageError('Failed to save channels to storage')
     }
   }
+
+  async clear(): Promise<void> {
+    try {
+      localStorage.removeItem(STORAGE_KEY)
+    } catch {
+      throw new StorageError('Failed to clear channels from storage')
+    }
+  }
 }

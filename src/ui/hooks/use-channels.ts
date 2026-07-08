@@ -17,3 +17,7 @@ export async function importM3U(content: string, origin?: ChannelOrigin) {
   const count = await parseUseCase.execute(content, origin)
   return count
 }
+
+export async function clearChannels() {
+  await channelRepo.clear()
+}
