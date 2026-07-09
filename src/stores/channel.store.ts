@@ -1,5 +1,9 @@
 import { create } from 'zustand'
-import type { ChannelFilters } from '../core/channel/application/filter-channels.use-case.ts'
+export interface ChannelFilters {
+  category?: string | undefined
+  favoritesOnly?: boolean | undefined
+  favoriteIds?: string[] | undefined
+}
 
 export interface ChannelStoreState {
   searchQuery: string

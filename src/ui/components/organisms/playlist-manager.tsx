@@ -109,7 +109,7 @@ export function PlaylistManager() {
                 className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-colors ${
                   activePlaylistId === pl.id
                     ? 'border-[var(--color-accent-primary)] bg-[var(--color-accent-primary)]/10'
-                    : 'border-white/10 bg-slate-900/40 backdrop-blur-md'
+                    : 'border-[var(--glass-border)] bg-[var(--glass-bg)] backdrop-blur-md'
                 }`}
                 onClick={() => setActivePlaylist(pl.id)}
               >
@@ -133,7 +133,7 @@ export function PlaylistManager() {
         </div>
       )}
 
-      <hr className="border-white/10" />
+      <hr className="border-[var(--glass-border)]" />
 
       <div>
         <h2 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Mantenimiento</h2>

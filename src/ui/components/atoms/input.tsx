@@ -13,7 +13,7 @@ export function Input({ className = '', icon, ...props }: InputProps) {
         </span>
       )}
       <input
-        className={`w-full bg-[var(--color-surface)] text-[var(--color-text-primary)] border border-[var(--color-border)] rounded-lg px-4 py-2 placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-accent-primary)] transition-colors ${icon ? 'pl-10' : ''} ${className}`}
+        className={`w-full bg-[var(--glass-bg)] text-[var(--color-text-primary)] border border-[var(--glass-border)] rounded-lg px-4 py-2 placeholder:text-[var(--color-text-secondary)] focus:outline-none focus:border-[var(--color-accent-primary)] transition-colors ${icon ? 'pl-10' : ''} ${className}`}
         {...props}
       />
     </div>

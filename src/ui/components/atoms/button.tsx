@@ -1,15 +1,16 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost'
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger'
   size?: 'sm' | 'md' | 'lg'
   children: ReactNode
 }
 
 const variantStyles = {
   primary: 'bg-[var(--color-accent-primary)] text-white hover:opacity-90',
-  secondary: 'bg-[var(--color-surface)] text-[var(--color-text-primary)] border border-[var(--color-border)] hover:bg-opacity-80',
+  secondary: 'bg-[var(--glass-bg)] text-[var(--color-text-primary)] border border-[var(--glass-border)] hover:bg-opacity-80',
   ghost: 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]',
+  danger: 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30',
 }
 
 const sizeStyles = {

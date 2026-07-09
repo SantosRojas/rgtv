@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 
 const HomePage = lazy(() => import('../pages/home.page.tsx'))
-const PlaylistsPage = lazy(() => import('../pages/playlists.page.tsx'))
 const SettingsPage = lazy(() => import('../pages/settings.page.tsx'))
 
 function PageLoader() {
@@ -15,7 +14,6 @@ function PageLoader() {
 function matchRoute(hash: string): { route: string; params: Record<string, string> } {
   const path = hash.replace(/^#\//, '') || ''
 
-  if (path === 'listas') return { route: 'playlists', params: {} }
   if (path === 'configuracion') return { route: 'settings', params: {} }
 
   return { route: 'home', params: {} }
@@ -31,7 +29,6 @@ export function AppRoutes({ hash }: AppRoutesProps) {
   return (
     <Suspense fallback={<PageLoader />}>
       {route === 'home' && <HomePage />}
-      {route === 'playlists' && <PlaylistsPage />}
       {route === 'settings' && <SettingsPage />}
     </Suspense>
   )

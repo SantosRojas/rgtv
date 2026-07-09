@@ -83,7 +83,7 @@ function CategoryDropdown({
     <div ref={ref} className="relative" onKeyDown={handleKeyDown}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 bg-(--color-surface) text-(--color-text-primary) border border-(--color-border) rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-(--color-accent-primary) w-full lg:w-auto max-w-full"
+        className="flex items-center gap-2 bg-[var(--glass-bg)] text-(--color-text-primary) border border-[var(--glass-border)] rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-(--color-accent-primary) w-full lg:w-auto max-w-full"
         aria-label="Filtrar por categoría"
         aria-expanded={open}
         aria-haspopup="listbox"
@@ -96,7 +96,7 @@ function CategoryDropdown({
         <div
           ref={listRef}
           role="listbox"
-          className="absolute top-full left-0 mt-1 z-50 min-w-50 w-full lg:min-w-60 bg-(--color-surface) border border-(--color-border) rounded-xl shadow-xl backdrop-blur-md max-h-70 overflow-y-auto scrollbar-none"
+          className="absolute top-full left-0 mt-1 z-50 min-w-50 w-full lg:min-w-60 bg-[var(--color-surface)] border border-[var(--glass-border)] rounded-xl shadow-xl max-h-70 overflow-y-auto scrollbar-none"
         >
           <button
             role="option"

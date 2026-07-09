@@ -1,24 +1,34 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-export type ThemeVariant = 'dark-slate' | 'dark-emerald' | 'dark-violet' | 'dark-cyan'
+export type ThemeMode = 'dark' | 'light' | 'system'
+export type AccentVariant = 'purple' | 'emerald' | 'violet' | 'cyan' | 'amber' | 'rose' | 'blue' | 'sky' | 'custom'
 
 export interface SettingsStoreState {
-  theme: ThemeVariant
+  mode: ThemeMode
+  accent: AccentVariant
+  customAccent: string
   proxyUrl: string
-  setTheme: (theme: ThemeVariant) => void
+  setMode: (mode: ThemeMode) => void
+  setAccent: (accent: AccentVariant) => void
+  setCustomAccent: (color: string) => void
   setProxyUrl: (url: string) => void
 }
 
 export const useSettingsStore = create<SettingsStoreState>()(
   persist(
     (set) => ({
-      theme: 'dark-slate',
+      mode: 'dark',
+      accent: 'purple',
+      customAccent: '#c084fc',
       proxyUrl: '',
 
-      setTheme: (theme) => {
-        document.documentElement.setAttribute('data-theme', theme)
-        set({ theme })
+      setMode: (mode) => set({ mode }),
+
+      setAccent: (accent) => set({ accent }),
+
+      setCustomAccent: (customAccent) => {
+        set({ customAccent, accent: 'custom' })
       },
 
       setProxyUrl: (proxyUrl) => set({ proxyUrl }),

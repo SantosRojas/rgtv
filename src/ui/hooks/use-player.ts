@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { HlsPlayer } from '../../core/player/infrastructure/hls.player.ts'
 import { PlayerService } from '../../core/player/application/player.service.ts'
 import { usePlayerStore } from '../../stores/player.store.ts'
@@ -18,19 +18,16 @@ export function usePlayer() {
   const service = getPlayerService()
   const videoRef = useRef<HTMLVideoElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const [isZoomed, setIsZoomed] = useState(false)
 
   const currentChannel = usePlayerStore((s) => s.currentChannel)
   const playbackState = usePlayerStore((s) => s.playbackState)
   const volume = usePlayerStore((s) => s.volume)
   const muted = usePlayerStore((s) => s.muted)
-  const currentTime = usePlayerStore((s) => s.currentTime)
-  const duration = usePlayerStore((s) => s.duration)
   const setCurrentChannel = usePlayerStore((s) => s.setCurrentChannel)
   const setPlaybackState = usePlayerStore((s) => s.setPlaybackState)
   const setVolumeAction = usePlayerStore((s) => s.setVolume)
   const setMutedAction = usePlayerStore((s) => s.setMuted)
-  const setCurrentTimeAction = usePlayerStore((s) => s.setCurrentTime)
-  const setDurationAction = usePlayerStore((s) => s.setDuration)
 
   useEffect(() => {
     if (videoRef.current) {
@@ -40,10 +37,6 @@ export function usePlayer() {
     const unsubscribe = service.player.on((event) => {
       if (event.type === 'stateChange') {
         setPlaybackState(event.state)
-      }
-      if (event.type === 'timeUpdate') {
-        setCurrentTimeAction(event.currentTime)
-        setDurationAction(event.duration)
       }
     })
 
@@ -64,17 +57,6 @@ export function usePlayer() {
       }
     },
     [service, setCurrentChannel, setPlaybackState],
-  )
-
-  const togglePlay = useCallback(() => {
-    service.togglePlay()
-  }, [service])
-
-  const seek = useCallback(
-    (time: number) => {
-      service.seek(time)
-    },
-    [service],
   )
 
   const setVolume = useCallback(
@@ -99,6 +81,10 @@ export function usePlayer() {
     }
   }, [])
 
+  const toggleZoom = useCallback(() => {
+    setIsZoomed((prev) => !prev)
+  }, [])
+
   return {
     videoRef,
     containerRef,
@@ -106,13 +92,11 @@ export function usePlayer() {
     playbackState,
     volume,
     muted,
-    currentTime,
-    duration,
+    isZoomed,
     loadChannel,
-    togglePlay,
-    seek,
     setVolume,
     toggleMute,
     toggleFullscreen,
+    toggleZoom,
   }
 }

@@ -1,6 +1,0 @@
-export type { Channel, ChannelOrigin } from '../../channel/domain/channel.ts'
-export type { ChannelRepository } from '../../channel/domain/channel.repository.ts'
-export type { PlaybackState } from '../../player/domain/playback-state.ts'
-export type { Playlist } from '../../playlist/domain/playlist.ts'
-export type { FavoriteRepository } from '../../playlist/domain/favorite.repository.ts'
-export { DomainError, ParseError, StorageError, PlaybackError } from '../domain/errors.ts'

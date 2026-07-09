@@ -6,7 +6,7 @@ interface BadgeProps {
 }
 
 const variantStyles = {
-  default: 'bg-[var(--color-surface)] text-[var(--color-text-secondary)] border border-[var(--color-border)]',
+  default: 'bg-[var(--glass-bg)] text-[var(--color-text-secondary)] border border-[var(--glass-border)]',
   favorite: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
   category: 'bg-[var(--color-accent-primary)]/10 text-[var(--color-accent-primary)] border border-[var(--color-accent-primary)]/20',
 }
